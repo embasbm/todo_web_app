@@ -2,8 +2,12 @@ DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/todo_list.db")
 
 # models will go here
 class Task
-  
-end 
+  include DataMapper::Resource
+  property :id, Serial
+  property :description, Text
+  property :completed, Boolean, default: false
+  property :created_at, DateTime
+end
 
 DataMapper.finalize.auto_upgrade!
 
