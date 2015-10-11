@@ -20,8 +20,21 @@ class TodoApp < Sinatra::Base
 
   # example route, access this with http://localhost:9292/example
   get '/todos' do
+    @tasks = Task.all(order: :created_at.desc)
     erb :todos
   end
 
-  # add more routes here
+  post '/todos' do
+    Task.create(description: params[:description], created_at: Time.now)
+    redirect '/todos'
+  end
+
+  post '/todos/:id/complete' do
+    task = Task.get(params[:id])
+    task.update(completed: true)
+  end
+  post '/todos/:id/uncomplete' do
+    task = Task.get(params[:id])
+    task.update(completed: false)
+  end
 end
